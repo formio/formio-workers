@@ -1,5 +1,5 @@
 {
-  "name": "formio-template-service",
+  "name": "formio-workers",
   "version": "1.0.0",
   "description": "A Nunjucks rendering template service for Form.io forms.",
   "main": "index.js",
