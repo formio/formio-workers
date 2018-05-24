@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/formio/formio-template-service.git"
+    "url": "git+https://github.com/formio/formio-workers.git"
   },
   "author": "Travis Tidwell",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/formio/formio-template-service/issues"
+    "url": "https://github.com/formio/formio-workers/issues"
   },
-  "homepage": "https://github.com/formio/formio-template-service#readme",
+  "homepage": "https://github.com/formio/formio-workers#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
     "dotenv": "^5.0.1",
