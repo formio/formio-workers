@@ -9,13 +9,13 @@ app.use(bodyParser.json({
 app.use(methodOverride('X-HTTP-Method-Override'));
 const Thread = require('formio/src/worker/Thread');
 
-app.post('worker/:worker', (req, res, next) => {
+app.post('/worker/:worker', (req, res, next) => {
   if (!req.query.key || req.query.key !== process.env.KEY) {
     return res.status(401).send('Unauthorized');
   }
   return next();
 }, (req, res) => {
-  if (!req.params.worker || Thread.Tasks.hasOwnProperty(req.params.worker)) {
+  if (!req.params.worker || !Thread.Tasks.hasOwnProperty(req.params.worker)) {
     return res.status(400).send('Unknown worker');
   }
 
