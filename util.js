@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const moment = require('moment');
 const Utils = {
   flattenComponentsForRender(components) {
     const flattened = {};
