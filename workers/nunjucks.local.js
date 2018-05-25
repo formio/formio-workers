@@ -14,10 +14,10 @@ module.exports = (worker, done) => {
       nunjucks.context.output,
     );
   }
-  catch (e) {
-    console.log(e.message);
-    console.log(e.stack);
-    return done({resolve: null});
+  catch (err) {
+    console.log(err.message);
+    console.log(err.stack);
+    return done({error: err, resolve: null});
   }
   return done({resolve: result});
 };

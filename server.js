@@ -23,11 +23,11 @@ app.post('/worker/:worker', (req, res, next) => {
     new Worker(Worker.Tasks[req.params.worker]).start(req.body).then((response) => {
       res.json(response);
     }).catch((error) => {
-      res.status(400).send(error);
+      res.status(400).send(error.message);
     });
   }
   catch (err) {
-    res.status(500).send(err);
+    res.status(500).send(err.message);
   }
 });
 

@@ -5,14 +5,19 @@ class Local {
 
   start(data) {
     return new Promise((resolve, reject) => {
-      this.task(data, (result) => {
-        if (result.resolve) {
-          return resolve(result.resolve);
-        }
-        else {
-          return reject('An error occurred within worker');
-        }
-      });
+      try {
+        this.task(data, (result) => {
+          if (result.resolve) {
+            return resolve(result.resolve);
+          }
+          else {
+            return reject(result.error);
+          }
+        });
+      }
+      catch (err) {
+        resolve(err);
+      }
     });
   }
 }
