@@ -10,5 +10,5 @@ module.exports = (worker, done) => {
     console.log(e.stack);
     return done({resolve: null});
   }
-  return done({resolve: sandbox.output});
+  return done({resolve: nunjucks.context.output});
 };
