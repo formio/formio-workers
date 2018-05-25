@@ -7,7 +7,7 @@ app.use(bodyParser.json({
 }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-let Worker = process.env.LAMBDA ? require('formio/src/worker/Lambda') : require('formio/src/worker/Thread');
+let Worker = process.env.LAMBDA ? require('formio/src/worker/Local') : require('formio/src/worker/Thread');
 
 app.post('/worker/:worker', (req, res, next) => {
   if (!req.query.key || req.query.key !== process.env.KEY) {

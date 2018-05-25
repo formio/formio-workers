@@ -1,4 +1,4 @@
-class Lambda {
+class Local {
   constructor(task) {
     this.task = require('./workers/' + task);
   }
@@ -17,8 +17,8 @@ class Lambda {
   }
 }
 
-Lambda.Tasks = {
+Local.Tasks = {
   nunjucks: 'nunjucks.js'
 };
 
-module.exports = Lambda;
+module.exports = Local;
