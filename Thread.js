@@ -62,7 +62,7 @@ class Thread {
 }
 
 Thread.Tasks = {
-  nunjucks: 'nunjucks.js'
+  nunjucks: 'nunjucks.worker.js'
 };
 
 module.exports = Thread;

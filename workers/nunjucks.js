@@ -1,52 +1,50 @@
 'use strict';
+const clone = require('clone');
+const nunjucks = require('nunjucks');
+const dateFilter = require('nunjucks-date-filter');
+const _ = require('lodash');
+const util = require('../util');
 
-module.exports = (worker, done) => {
-  const vm = require('vm');
-  const clone = require('clone');
-  const nunjucks = require('nunjucks');
-  const dateFilter = require('nunjucks-date-filter');
-  const _ = require('lodash');
-  const util = require('../util');
+// Configure nunjucks to not watch any files
+const environment = nunjucks.configure([], {
+  watch: false,
+  autoescape: false
+});
 
-  // Configure nunjucks to not watch any files
-  const environment = nunjucks.configure([], {
-    watch: false,
-    autoescape: false
-  });
+environment.addFilter('is_string', function(obj) {
+  return _.isString(obj);
+});
 
-  environment.addFilter('is_string', function(obj) {
-    return _.isString(obj);
-  });
+environment.addFilter('is_array', function(obj) {
+  return _.isArray(obj);
+});
 
-  environment.addFilter('is_array', function(obj) {
-    return _.isArray(obj);
-  });
+environment.addFilter('is_object', function(obj) {
+  return _.isPlainObject(obj);
+});
 
-  environment.addFilter('is_object', function(obj) {
-    return _.isPlainObject(obj);
-  });
+environment.addFilter('date', dateFilter);
 
-  environment.addFilter('date', dateFilter);
+environment.addFilter('submissionTable', function(obj, components) {
+  return new nunjucks.runtime.SafeString(util.renderFormSubmission(obj, components));
+});
 
-  environment.addFilter('submissionTable', function(obj, components) {
-    return new nunjucks.runtime.SafeString(util.renderFormSubmission(obj, components));
-  });
+environment.addFilter('componentValue', function(obj, key, components) {
+  const compValue = util.renderComponentValue(obj, key, components);
+  return new nunjucks.runtime.SafeString(compValue.value);
+});
 
-  environment.addFilter('componentValue', function(obj, key, components) {
-    const compValue = util.renderComponentValue(obj, key, components);
-    return new nunjucks.runtime.SafeString(compValue.value);
-  });
-
-  environment.addFilter('componentLabel', function(key, components) {
-    let label = key;
-    if (!components.hasOwnProperty(key)) {
-      return label;
-    }
-    const component = components[key];
-    label = component.label || component.placeholder || component.key;
+environment.addFilter('componentLabel', function(key, components) {
+  let label = key;
+  if (!components.hasOwnProperty(key)) {
     return label;
-  });
+  }
+  const component = components[key];
+  label = component.label || component.placeholder || component.key;
+  return label;
+});
 
+module.exports = (worker) => {
   const filters = worker.filters || {};
   Object.keys(filters).forEach(filter => {
     try {
@@ -101,25 +99,15 @@ module.exports = (worker, done) => {
   });
 
   // Build the sandbox context with our dependencies
-  const sandbox = {
-    clone,
-    environment,
-    input: render,
-    context,
-    output: (typeof render === 'string' ? '' : {})
+  return {
+    script: getScript(render),
+    context: {
+      clone,
+      environment,
+      input: render,
+      context,
+      output: (typeof render === 'string' ? '' : {})
+    }
   };
-
-  const script = new vm.Script(getScript(render));
-  try {
-    script.runInContext(vm.createContext(sandbox), {timeout: 15000});
-  }
-  catch (e) {
-    /* eslint-disable no-console */
-    console.log(e.message);
-    console.log(e.stack);
-    /* eslint-enable no-console */
-    return done({resolve: null});
-  }
-
-  return done({resolve: sandbox.output});
 };
+

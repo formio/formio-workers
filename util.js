@@ -1,9 +1,10 @@
 const _ = require('lodash');
 const moment = require('moment');
+const FormioUtils = require('formiojs/utils');
 const Utils = {
   flattenComponentsForRender(components) {
     const flattened = {};
-    this.eachComponent(components, function(component, path) {
+    FormioUtils.eachComponent(components, function(component, path) {
       // Containers will get rendered as flat.
       if (
         (component.type === 'container') ||

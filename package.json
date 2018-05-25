@@ -23,6 +23,7 @@
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "formio": "^1.29.2",
+    "formiojs": "^2.32.2",
     "method-override": "^2.3.10",
     "moment": "^2.22.1",
     "nunjucks": "^3.1.3",
