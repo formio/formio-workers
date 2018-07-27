@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
-const FormioUtils = require('formiojs/utils');
+const FormioUtils = require('formiojs/utils').default;
 const Utils = {
   flattenComponentsForRender(components) {
     const flattened = {};
