@@ -16,7 +16,7 @@ const Utils = {
 
       flattened[path] = component;
 
-      if (component.type === 'datagrid') {
+      if (['datagrid', 'editgrid'].includes(component.type)) {
         return true;
       }
     });
@@ -98,6 +98,7 @@ const Utils = {
         }.bind(this));
         compValue.value += '</table>';
         break;
+      case 'editgrid':
       case 'datagrid': {
         const columns = this.flattenComponentsForRender(component.components);
         compValue.value = '<table border="1" style="width:100%">';
