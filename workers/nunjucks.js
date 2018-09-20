@@ -1,5 +1,4 @@
 'use strict';
-const clone = require('clone');
 const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 const _ = require('lodash');
@@ -102,7 +101,7 @@ module.exports = (worker) => {
   return {
     script: getScript(render),
     context: {
-      clone,
+      clone: _.cloneDeep.bind(_),
       environment,
       input: render,
       context,

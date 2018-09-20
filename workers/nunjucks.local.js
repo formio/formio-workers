@@ -2,7 +2,6 @@
 
 module.exports = (worker, done) => {
   const nunjucks = require('./nunjucks')(worker);
-  const clone = require('clone');
   const script = new Function('clone', 'environment', 'input', 'context', 'output', `${nunjucks.script};return output`);
   let result = null;
   try {

@@ -1,3 +1,7 @@
+## v1.8.0
+### Fixes
+ - Problems with bringing in older formiojs lib.
+ - Problems with including "clone" module that does not exist.
 
 ## v1.7.0
 ### Fixes
