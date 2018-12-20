@@ -1,6 +1,7 @@
+const workers = require('./workers');
 class Local {
   constructor(task) {
-    this.task = require('./workers/' + task);
+    this.task = workers[task];
   }
 
   start(data) {
