@@ -84,7 +84,7 @@ module.exports = (worker) => {
           var template = input[prop];
           if (prop === 'html') {
             macros = context.macros;
-            if (template.substr(0, 29) !== '{% macro dataValue(dValue) %}')) {
+            if (template.substr(0, 29) !== '{% macro dataValue(dValue) %}') {
               template = environment.renderString(macros + template, context);
             }
             else {
