@@ -3,6 +3,7 @@ const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 const _ = require('lodash');
 const util = require('../util');
+const macros = require('./macros/macros');
 
 // Configure nunjucks to not watch any files
 const environment = nunjucks.configure([], {
@@ -79,8 +80,16 @@ module.exports = (worker) => {
       context._rendered = {};
       for (let prop in input) {
         if (input.hasOwnProperty(prop)) {
+          var macros = '';
+          var template = input[prop];
+          if (prop === 'html') {
+            macros = context.macros;
+            if (template.substr(0, 8) !== '{% macro') {
+              template = macros + template;
+            }
+          }
           context._rendered[prop] = output[prop] = environment.renderString(
-            environment.renderString(input[prop], context),
+            macros + environment.renderString(template, context),
             context
           );
         }
@@ -90,6 +99,7 @@ module.exports = (worker) => {
 
   const render = worker.render;
   const context = worker.context || {};
+  context.macros = macros;
 
   // Convert all toString functions back to functions.
   const functions = worker._functions || [];
