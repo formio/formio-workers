@@ -190,7 +190,7 @@ const Utils = {
     }
     else if (component.encrypted) {
       // TODO: decrypted compValue.value above (pre-switch) and remove this check
-      // See FOR-2180 
+      // See FOR-2180
       compValue.value = '--- ENCRYPTED ---';
     }
 
