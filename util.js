@@ -188,9 +188,7 @@ const Utils = {
     if (component.protected) {
       compValue.value = '--- PROTECTED ---';
     }
-    else if (component.encrypted) {
-      // TODO: decrypt compValue.value above (pre-switch) and remove this check
-      // See FOR-2180
+    else if (component.encrypted && _.get(compValue, 'value.type') === 'Buffer') {
       compValue.value = '--- ENCRYPTED ---';
     }
 
