@@ -188,9 +188,17 @@ const Utils = {
     if (component.protected) {
       compValue.value = '--- PROTECTED ---';
     }
+    else if (component.encrypted) {
+      // TODO: decrypted compValue.value above (pre-switch) and remove this check
+      // See FOR-2180 
+      compValue.value = '--- ENCRYPTED ---';
+    }
 
     // Ensure the value is a string.
-    compValue.value = compValue.value ? compValue.value.toString() : '';
+    compValue.value = compValue.value ?
+      (typeof compValue.value === 'object' ? JSON.stringify(compValue.value) : compValue.value.toString()) :
+      '';
+
     return compValue;
   },
   /* eslint-enable max-statements */
