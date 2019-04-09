@@ -188,9 +188,6 @@ const Utils = {
     if (component.protected) {
       compValue.value = '--- PROTECTED ---';
     }
-    else if (component.encrypted && _.get(compValue, 'value.type') === 'Buffer') {
-      compValue.value = '--- ENCRYPTED ---';
-    }
 
     // Ensure the value is a string.
     compValue.value = compValue.value ?
