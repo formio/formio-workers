@@ -178,6 +178,29 @@ const Utils = {
         }
         break;
       }
+      case 'survey': {
+        compValue.value = '<table border="1" style="width:100%">';
+
+        compValue.value += `
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+        `;
+
+        compValue.value += '<tbody>';
+        _.mapKeys(value, (value, key) => {
+          compValue.value += '<tr>';
+          compValue.value += `<td style="text-align:center;padding: 5px 10px;">${key}</td>`;
+          compValue.value += `<td style="text-align:center;padding: 5px 10px;">${value}</td>`;
+          compValue.value += '</tr>';
+        });
+        compValue.value += '</tbody></table>';
+
+        break;
+      }
       default:
         if (!component.input) {
           return {value: false};
