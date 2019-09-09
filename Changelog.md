@@ -1,3 +1,7 @@
+## v1.13.0
+### Fixed
+ - Issue where file components could crash the email template handling code.
+
 ## v1.8.0
 ### Fixes
  - Problems with bringing in older formiojs lib.
