@@ -168,7 +168,7 @@ const Utils = {
       case 'file': {
         const file = Array.isArray(compValue.value) ? compValue.value[0] : compValue.value;
         if (file) {
-          compValue.value = `<a href="${file.url}" target="_blank">${file.originalName}</a>`;
+          compValue.value = `<a href="${file.url}" target="_blank" download="${file.originalName}">${file.originalName}</a>`;
         }
         else {
           compValue.value = '';
