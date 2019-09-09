@@ -166,15 +166,12 @@ const Utils = {
         break;
       }
       case 'file': {
-        if (!compValue.value) {
-          compValue.value = '';
+        const file = Array.isArray(compValue.value) ? compValue.value[0] : compValue.value;
+        if (file) {
+          compValue.value = `<a href="${file.url}" target="_blank">${file.originalName}</a>`;
         }
         else {
-          const {
-            originalName,
-            url,
-          } = Array.isArray(compValue.value) ? compValue.value[0] : compValue.value;
-          compValue.value = `<a href="${url}" target="_blank">${originalName}</a>`;
+          compValue.value = '';
         }
         break;
       }
