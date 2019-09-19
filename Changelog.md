@@ -1,3 +1,11 @@
+## v1.14.0
+### Fixed
+ - FOR-2367: Use labels instead of values when printing the survey component in emails.
+ - FOR-2499: Encourage browser to treat download links as file downloads
+ 
+### Changed
+ - 
+
 ## v1.13.0
 ### Fixed
  - Issue where file components could crash the email template handling code.
