@@ -188,10 +188,17 @@ const Utils = {
         `;
 
         compValue.value += '<tbody>';
-        _.mapKeys(value, (value, key) => {
+        _.forIn(value, (value, key) => {
+          const question = _.find(component.questions, ['value', key]);
+          const answer = _.find(component.values, ['value', value]);
+
+          if (!question || !answer) {
+            return;
+          }
+
           compValue.value += '<tr>';
-          compValue.value += `<td style="text-align:center;padding: 5px 10px;">${key}</td>`;
-          compValue.value += `<td style="text-align:center;padding: 5px 10px;">${value}</td>`;
+          compValue.value += `<td style="text-align:center;padding: 5px 10px;">${question.label}</td>`;
+          compValue.value += `<td style="text-align:center;padding: 5px 10px;">${answer.label}</td>`;
           compValue.value += '</tr>';
         });
         compValue.value += '</tbody></table>';
