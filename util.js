@@ -4,7 +4,8 @@ const FormioUtils = require('formiojs/utils').default;
 const Utils = {
   flattenComponentsForRender(components) {
     const flattened = {};
-    FormioUtils.eachComponent(components, function(component, path) {
+
+    FormioUtils.eachComponent(components, (component, path) => {
       // Containers will get rendered as flat.
       if (
         (component.type === 'container') ||
@@ -20,23 +21,14 @@ const Utils = {
         return true;
       }
     });
+
     return flattened;
   },
 
-  renderFormSubmission(data, components) {
-    const comps = this.flattenComponentsForRender(components);
-    let submission = '<table border="1" style="width:100%">';
-    _.each(comps, function(component, key) {
-      const cmpValue = this.renderComponentValue(data, key, comps);
-      if (typeof cmpValue.value === 'string') {
-        submission += '<tr>';
-        submission += `<th style="padding: 5px 10px;">${cmpValue.label}</th>`;
-        submission += `<td style="width:100%;padding:5px 10px;">${cmpValue.value}</td>`;
-        submission += '</tr>';
-      }
-    }.bind(this));
-    submission += '</table>';
-    return submission;
+  renderFormSubmission(data, formInstance) {
+    return formInstance.getView(formInstance.data, {
+      email: true,
+    });
   },
 
   /**
@@ -57,7 +49,7 @@ const Utils = {
     }
     const compValue = {
       label: key,
-      value: value
+      value,
     };
     if (!components.hasOwnProperty(key)) {
       return compValue;
@@ -66,11 +58,11 @@ const Utils = {
     compValue.label = component.label || component.placeholder || component.key;
     if (component.multiple) {
       components[key].multiple = false;
-      compValue.value = _.map(value, function(subValue) {
+      compValue.value = _.map(value, (subValue) => {
         const subValues = {};
         subValues[key] = subValue;
         return this.renderComponentValue(subValues, key, components).value;
-      }.bind(this)).join(', ');
+      }).join(', ');
       return compValue;
     }
 
@@ -83,19 +75,19 @@ const Utils = {
         break;
       case 'signature':
         // For now, we will just email YES or NO until we can make signatures work for all email clients.
-        compValue.value = ((typeof value === 'string') && (value.indexOf('data:') === 0)) ? 'YES' : 'NO';
+        compValue.value = (_.isString(value) && value.startsWith('data:')) ? 'YES' : 'NO';
         break;
       case 'container':
         compValue.value = '<table border="1" style="width:100%">';
-        _.each(value, function(subValue, subKey) {
+        _.each(value, (subValue, subKey) => {
           const subCompValue = this.renderComponentValue(value, subKey, components);
-          if (typeof subCompValue.value === 'string') {
+          if (_.isString(subCompValue.value)) {
             compValue.value += '<tr>';
             compValue.value += `<th style="text-align:right;padding: 5px 10px;">${subCompValue.label}</th>`;
             compValue.value += `<td style="width:100%;padding:5px 10px;">${subCompValue.value}</td>`;
             compValue.value += '</tr>';
           }
-        }.bind(this));
+        });
         compValue.value += '</table>';
         break;
       case 'editgrid':
@@ -103,23 +95,23 @@ const Utils = {
         const columns = this.flattenComponentsForRender(component.components);
         compValue.value = '<table border="1" style="width:100%">';
         compValue.value += '<tr>';
-        _.each(columns, function(column) {
+        _.each(columns, (column) => {
           const subLabel = column.label || column.key;
           compValue.value += `<th style="padding: 5px 10px;">${subLabel}</th>`;
         });
         compValue.value += '</tr>';
-        _.each(value, function(subValue) {
+        _.each(value, (subValue) => {
           compValue.value += '<tr>';
-          _.each(columns, function(column, key) {
+          _.each(columns, (column, key) => {
             const subCompValue = this.renderComponentValue(subValue, key, columns);
             if (typeof subCompValue.value === 'string') {
               compValue.value += '<td style="padding:5px 10px;">';
               compValue.value += subCompValue.value;
               compValue.value += '</td>';
             }
-          }.bind(this));
+          });
           compValue.value += '</tr>';
-        }.bind(this));
+        });
         compValue.value += '</table>';
         break;
       }
@@ -217,9 +209,9 @@ const Utils = {
     }
 
     // Ensure the value is a string.
-    compValue.value = compValue.value ?
-      (typeof compValue.value === 'object' ? JSON.stringify(compValue.value) : compValue.value.toString()) :
-      '';
+    compValue.value = compValue.value
+      ? (_.isObject(compValue.value) ? JSON.stringify(compValue.value) : compValue.value.toString())
+      : '';
 
     return compValue;
   },
