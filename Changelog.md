@@ -1,10 +1,14 @@
+## v1.14.1
+### Fixed
+ - Issues with email rendering for the new address component.
+
 ## v1.14.0
 ### Fixed
  - FOR-2367: Use labels instead of values when printing the survey component in emails.
  - FOR-2499: Encourage browser to treat download links as file downloads
- 
+
 ### Changed
- - 
+ -
 
 ## v1.13.0
 ### Fixed
@@ -18,6 +22,6 @@
 ## v1.7.0
 ### Fixes
  - FOR-1429: Add editgrid support for email rendering.
- 
+
 ### Changes
  - Upgraded claudia@5.1.1, aws-serverless-express@3.3.5, formiojs@3.5.3

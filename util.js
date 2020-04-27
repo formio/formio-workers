@@ -2,9 +2,26 @@ const _ = require('lodash');
 const moment = require('moment');
 const FormioUtils = require('formiojs/utils').default;
 const Utils = {
-  flattenComponentsForRender(components) {
+  isAutoAddress(data, component) {
+    return (component.type === 'address') && (!component.enableManualMode || (_.get(data, component.key).mode === 'autocomplete'));
+  },
+  flattenComponentsForRender(data, components) {
     const flattened = {};
-    FormioUtils.eachComponent(components, function(component, path) {
+    FormioUtils.eachComponent(components, (component, path) => {
+      var hasColumns = component.columns && Array.isArray(component.columns);
+      var hasRows = component.rows && Array.isArray(component.rows);
+      var hasComps = component.components && Array.isArray(component.components);
+      var autoAddress = this.isAutoAddress(data, component);
+
+      // Address compoennt with manual mode disabled should not show the nested components.
+      if (autoAddress) {
+        hasComps = false;
+      }
+
+      if (!component.tree && (hasColumns || hasRows || hasComps)) {
+        return;
+      }
+
       // Containers will get rendered as flat.
       if (
         (component.type === 'container') ||
@@ -15,16 +32,19 @@ const Utils = {
       }
 
       flattened[path] = component;
+      if (autoAddress) {
+        return true;
+      }
 
       if (['datagrid', 'editgrid'].includes(component.type)) {
         return true;
       }
-    });
+    }, true);
     return flattened;
   },
 
   renderFormSubmission(data, components) {
-    const comps = this.flattenComponentsForRender(components);
+    const comps = this.flattenComponentsForRender(data, components);
     let submission = '<table border="1" style="width:100%">';
     _.each(comps, function(component, key) {
       const cmpValue = this.renderComponentValue(data, key, comps);
@@ -50,7 +70,7 @@ const Utils = {
    * @returns {{label: *, value: *}}
    */
   /* eslint-disable max-statements */
-  renderComponentValue(data, key, components) {
+  renderComponentValue(data, key, components, noRecurse) {
     let value = _.get(data, key);
     if (!value) {
       value = '';
@@ -63,6 +83,17 @@ const Utils = {
       return compValue;
     }
     const component = components[key];
+
+    // For address components, we need to get the address parts.
+    if (
+      !noRecurse &&
+      component.parent &&
+      component.parent.type === 'address' &&
+      !this.isAutoAddress(data, component.parent)
+    ) {
+      return this.renderComponentValue(_.get(data, component.parent.key).address, key, components, true);
+    }
+
     compValue.label = component.label || component.placeholder || component.key;
     if (component.multiple) {
       components[key].multiple = false;
@@ -79,6 +110,9 @@ const Utils = {
         compValue.value = '--- PASSWORD ---';
         break;
       case 'address':
+        if (compValue.value && compValue.value.mode && compValue.value.address) {
+          compValue.value = compValue.value.address;
+        }
         compValue.value = compValue.value ? compValue.value.formatted_address : '';
         break;
       case 'signature':
@@ -100,7 +134,7 @@ const Utils = {
         break;
       case 'editgrid':
       case 'datagrid': {
-        const columns = this.flattenComponentsForRender(component.components);
+        const columns = this.flattenComponentsForRender(data, component.components);
         compValue.value = '<table border="1" style="width:100%">';
         compValue.value += '<tr>';
         _.each(columns, function(column) {
