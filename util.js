@@ -3,7 +3,7 @@ const moment = require('moment');
 const FormioUtils = require('formiojs/utils').default;
 const Utils = {
   isAutoAddress(data, component) {
-    return (component.type === 'address') && (!component.enableManualMode || (_.get(data, component.key).mode === 'autocomplete'));
+    return (component.type === 'address') && (_.get(data, component.key).mode === 'autocomplete');
   },
   flattenComponentsForRender(data, components) {
     const flattened = {};
@@ -89,6 +89,7 @@ const Utils = {
       !noRecurse &&
       component.parent &&
       component.parent.type === 'address' &&
+      component.parent.enableManualMode &&
       !this.isAutoAddress(data, component.parent)
     ) {
       return this.renderComponentValue(_.get(data, component.parent.key).address, key, components, true);
