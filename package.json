@@ -19,12 +19,12 @@
   },
   "homepage": "https://github.com/formio/formio-workers#readme",
   "dependencies": {
-    "aws-serverless-express": "^3.3.6",
+    "aws-serverless-express": "^3.3.8",
     "body-parser": "^1.19.0",
-    "core-js": "^3.2.1",
-    "dotenv": "^8.1.0",
+    "core-js": "^3.6.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "formiojs": "^4.1.0",
+    "formiojs": "^4.9.23",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
     "nunjucks": "^3.2.1",
@@ -32,6 +32,6 @@
     "threads": "^0.12.1"
   },
   "devDependencies": {
-    "claudia": "^5.8.0"
+    "claudia": "^5.12.0"
   }
 }
