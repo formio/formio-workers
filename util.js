@@ -3,7 +3,10 @@ const moment = require('moment');
 const FormioUtils = require('formiojs/utils').default;
 const Utils = {
   isAutoAddress(data, component, path) {
-    var addressData = _.get(data, path);
+    var addressData = _.get(data, path || component.key);
+    if (!component || !addressData) {
+      return true;
+    }
     return (component.type === 'address' && (!addressData.mode || addressData.mode === 'autocomplete'));
   },
   flattenComponentsForRender(data, components) {

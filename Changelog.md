@@ -1,3 +1,7 @@
+## v1.14.4
+### Fixed
+ - Ensure that the email service will not crash.
+
 ## v1.14.3
 ### Fixed
  - Address component issues.
