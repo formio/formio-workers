@@ -1,3 +1,7 @@
+## v1.14.3
+### Fixed
+ - Address component issues.
+
 ## v1.14.1
 ### Fixed
  - Issues with email rendering for the new address component.
