@@ -2,8 +2,8 @@ const _ = require('lodash');
 const moment = require('moment');
 const FormioUtils = require('formiojs/utils').default;
 const Utils = {
-  isAutoAddress(data, component) {
-    var addressData = _.get(data, component.key);
+  isAutoAddress(data, component, path) {
+    var addressData = _.get(data, path);
     return (component.type === 'address' && (!addressData.mode || addressData.mode === 'autocomplete'));
   },
   flattenComponentsForRender(data, components) {
@@ -12,7 +12,7 @@ const Utils = {
       var hasColumns = component.columns && Array.isArray(component.columns);
       var hasRows = component.rows && Array.isArray(component.rows);
       var hasComps = component.components && Array.isArray(component.components);
-      var autoAddress = this.isAutoAddress(data, component);
+      var autoAddress = this.isAutoAddress(data, component, path);
 
       // Address compoennt with manual mode disabled should not show the nested components.
       if (autoAddress) {
