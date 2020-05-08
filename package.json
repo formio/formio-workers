@@ -1,6 +1,6 @@
 {
   "name": "formio-workers",
-  "version": "1.14.4",
+  "version": "1.14.5",
   "description": "A Nunjucks rendering template service for Form.io forms.",
   "main": "index.js",
   "scripts": {

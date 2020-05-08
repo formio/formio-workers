@@ -1,3 +1,7 @@
+## v1.14.5
+### Fixed
+ - Issues with the templates not rending root panels in emails.
+
 ## v1.14.4
 ### Fixed
  - Ensure that the email service will not crash.
