@@ -19,13 +19,14 @@ const Utils = {
       var hasRows = component.rows && Array.isArray(component.rows);
       var hasComps = component.components && Array.isArray(component.components);
       var autoAddress = this.isAutoAddress(data, component, path);
+      var isDataArray = ['datagrid', 'editgrid'].includes(component.type) || component.tree;
 
       // Address compoennt with manual mode disabled should not show the nested components.
       if (autoAddress) {
         hasComps = false;
       }
 
-      if (!component.tree && (hasColumns || hasRows || hasComps)) {
+      if (!isDataArray && (hasColumns || hasRows || hasComps)) {
         return;
       }
 
@@ -43,7 +44,7 @@ const Utils = {
         return true;
       }
 
-      if (['datagrid', 'editgrid'].includes(component.type)) {
+      if (isDataArray) {
         return true;
       }
     }, true);

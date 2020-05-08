@@ -1,3 +1,7 @@
+## v1.14.6
+### Fixed
+ - Problems with datagrid and editgrid emails.
+
 ## v1.14.5
 ### Fixed
  - Issues with the templates not rending root panels in emails.
