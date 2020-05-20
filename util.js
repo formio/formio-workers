@@ -167,16 +167,8 @@ const Utils = {
         break;
       }
       case 'datetime': {
-        let dateFormat = '';
-        if (component.enableDate) {
-          dateFormat = component.format.toUpperCase();
-        }
-        if (component.enableTime) {
-          dateFormat += ' hh:mm:ss A';
-        }
-        if (dateFormat) {
-          compValue.value = moment(value).format(dateFormat);
-        }
+        const dateFormat = (component.widget && component.widget.format) || component.format || 'yyyy-MM-dd hh:MM a';
+        compValue.value = moment(value).format(FormioUtils.convertFormatToMoment(dateFormat));
         break;
       }
       case 'radio':
