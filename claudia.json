@@ -1,0 +1,10 @@
+{
+  "lambda": {
+    "role": "formio-workers-executor",
+    "name": "formio-workers",
+    "region": "us-west-2"
+  },
+  "api": {
+    "id": "t6s8x9egnl"
+  }
+}
