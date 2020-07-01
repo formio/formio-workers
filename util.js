@@ -26,9 +26,7 @@ const Utils = {
   },
 
   renderFormSubmission(data, formInstance) {
-    return formInstance.getView(formInstance.data, {
-      email: true,
-    });
+    return formInstance.render();
   },
 
   /**

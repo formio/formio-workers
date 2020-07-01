@@ -62,8 +62,8 @@ environment.addFilter('is_object', (obj) => _.isPlainObject(obj));
 
 environment.addFilter('date', dateFilter);
 
-environment.addFilter('submissionTable', (obj, components) =>
-  new nunjucks.runtime.SafeString(util.renderFormSubmission(obj, components))
+environment.addFilter('submissionTable', (obj, formInstance) =>
+  new nunjucks.runtime.SafeString(util.renderFormSubmission(obj, formInstance))
 );
 
 environment.addFilter('componentValue', (obj, key, components) => {
@@ -167,7 +167,8 @@ module.exports = (worker) => {
         }
         return value;
       }
-    }
+    },
+    renderMode: 'email'
   })
     .then((form) => {
       // Set the submission data
