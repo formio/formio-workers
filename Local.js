@@ -24,7 +24,7 @@ class Local {
 }
 
 Local.Tasks = {
-  nunjucks: 'nunjucks.local.js'
+  nunjucks: 'nunjucks.worker.js'
 };
 
 module.exports = Local;
