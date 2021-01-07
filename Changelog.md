@@ -1,3 +1,7 @@
+## v1.15.2
+### Fixed
+ - Issue where the template service would not run within a vm.
+
 ## v1.15.1
 ### Fixed
  - Issue where templates would allow raw output.
