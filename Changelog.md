@@ -1,3 +1,7 @@
+## v1.15.1
+### Fixed
+ - Issue where templates would allow raw output.
+
 ## v1.15.0
 ### Changed
  - Added possibility to have dynamic rendering.
