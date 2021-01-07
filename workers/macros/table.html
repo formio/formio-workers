@@ -65,5 +65,5 @@
   {% endfor %}
 {% endmacro %}
 {% macro table(components, title) %}
-  {{ dataTable(components, data, title) }}
+ {{ '{{ dataTable(components, data, title) }}' }}
 {% endmacro %}
