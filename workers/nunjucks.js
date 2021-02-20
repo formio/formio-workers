@@ -2,7 +2,7 @@
 const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 const _ = require('lodash');
-const util = require('../util');
+const util = require('./util');
 const macros = require('./macros/macros');
 
 // Configure nunjucks to not watch any files
@@ -91,9 +91,10 @@ module.exports = (worker) => {
               template = environment.renderString(template, context);
             }
           }
-          context._rendered[prop] = output[prop] = environment.renderString(macros + template, context);
+          context._rendered[prop] = environment.renderString(macros + template, context);
         }
       }
+      output = context._rendered;
     `;
   };
 

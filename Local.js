@@ -1,30 +1,27 @@
-const workers = require('./workers');
+const Worker  = require('./Worker');
+const Tasks = {
+  nunjucks: `./workers/nunjucks.js`
+};
 class Local {
   constructor(task) {
-    this.task = workers[task];
+    this.task = Tasks[task] ? Tasks[task] : '';
   }
 
-  start(data) {
-    return new Promise((resolve, reject) => {
-      try {
-        this.task(data, (result) => {
-          if (result.resolve) {
-            return resolve(result.resolve);
-          }
-          else {
-            return reject(result.error);
-          }
-        });
-      }
-      catch (err) {
-        resolve(err);
+  async start(data) {
+    if (!this.task) {
+      return 'Unknown worker';
+    }
+    // Stringify all custom functions and let the thread know, since you cant pass functions to a child process.
+    const functions = [];
+    Object.keys(data.context || {}).forEach(key => {
+      if (typeof data.context[key] === 'function') {
+        data.context[key] = data.context[key].toString();
+        functions.push(key);
       }
     });
+    data._functions = functions;
+    return Worker(this.task, data);
   }
 }
-
-Local.Tasks = {
-  nunjucks: 'nunjucks.worker.js'
-};
 
 module.exports = Local;
