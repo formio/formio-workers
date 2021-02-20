@@ -6,7 +6,7 @@ app.use(bodyParser.json({
   limit: '16mb'
 }));
 app.use(methodOverride('X-HTTP-Method-Override'));
-const Worker = require('./Local');
+const WorkerThread = require('./Thread');
 
 app.post('/worker/:worker', (req, res, next) => {
   if (!req.query.key || req.query.key !== process.env.KEY) {
@@ -19,7 +19,7 @@ app.post('/worker/:worker', (req, res, next) => {
   }
 
   try {
-    new Worker(req.params.worker).start(req.body).then((response) => {
+    new WorkerThread(req.params.worker).start(req.body).then((response) => {
       res.json(response);
     }).catch((error) => {
       res.status(400).send(error.message);
