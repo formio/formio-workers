@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.14.11
+### Changed
+ - Refactored library to use workers and vm2
+
 ## 1.14.10
 ### Fixed
  - Issue where the template service would not run within a vm.
