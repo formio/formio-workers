@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.14.12
+### Fixed
+ - Issues where complex data objects would make the email not send.
+
 ## 1.14.11
 ### Changed
  - Refactored library to use workers and vm2
