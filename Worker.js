@@ -26,13 +26,14 @@ if (isMainThread) {
     };
 }
 else {
+    const _ = require('lodash');
     const { VM } = require('vm2');
     const worker = require(workerData.task)(workerData.data);
     let output = '';
     try {
         output = (new VM({
             timeout: 15000,
-            sandbox: worker.context,
+            sandbox: _.cloneDeep(worker.context),
             fixAsync: true
         })).run(worker.script);
     }
