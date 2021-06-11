@@ -4,6 +4,7 @@ const dateFilter = require('nunjucks-date-filter');
 const _ = require('lodash');
 const util = require('./util');
 const macros = require('./macros/macros');
+const { VM } = require('vm2');
 
 // Configure nunjucks to not watch any files
 const environment = nunjucks.configure([], {
@@ -45,79 +46,73 @@ environment.addFilter('componentLabel', function(key, components) {
 });
 
 module.exports = (worker) => {
-  const filters = worker.filters || {};
-  Object.keys(filters).forEach(filter => {
-    try {
-      // Essentially eval, but it only gets executed in a vm within a child process.
-      environment.addFilter(filter, new Function(`return ${filters[filter].toString()}`)());
-    }
-    catch (e) {
-      // TODO: Add user logs to fix issues with email templates.
-      /* eslint-disable no-console */
-      console.log(e);
-      /* eslint-enable no-console */
-    }
-  });
-
   const getScript = (data) => {
     if (typeof data === 'string') {
       // Script to render a single string.
       return `
-        environment.params = clone(context);
-        if (context._private) {
-          delete context._private;
-        }
-        output = environment.renderString(input, context);
+        environment.params = context;
+        output = environment.renderString(context.sanitize(input), context);
       `;
     }
 
     // Script to render an object of properties.
     return `
-      environment.params = clone(context);
-      if (context._private) {
-        delete context._private;
-      }
-      context._rendered = {};
+      environment.params = context;
+      var rendered = {};
       for (let prop in input) {
         if (input.hasOwnProperty(prop)) {
-          var macros = '';
-          var template = input[prop];
+          rendered[prop] = input[prop];
           if (prop === 'html') {
-            macros = context.macros;
-            if (template.substr(0, 29) !== '{% macro dataValue(dValue) %}') {
-              template = environment.renderString(macros + template, context);
-            }
-            else {
-              template = environment.renderString(template, context);
-            }
+            rendered[prop] = environment.renderString(context.macros + context.sanitize(rendered[prop]), context);
           }
-          context._rendered[prop] = environment.renderString(macros + template, context);
+          rendered[prop] = environment.renderString(context.macros + context.sanitize(rendered[prop]), context);
         }
       }
-      output = context._rendered;
+      output = rendered;
     `;
   };
 
   const render = worker.render;
   const context = worker.context || {};
   context.macros = macros;
-
-  // Convert all toString functions back to functions.
-  const functions = worker._functions || [];
-  functions.forEach(key => {
-    context[key] = new Function(`return ${context[key].toString()}`)();
-  });
-
-  // Build the sandbox context with our dependencies
-  return {
-    script: getScript(render),
-    context: {
-      clone: _.cloneDeep.bind(_),
-      environment,
-      input: render,
-      context,
-      output: (typeof render === 'string' ? '' : {})
-    }
+  context.renderValue = function(value, data) {
+    return value.toString().replace(/({{\s*(.*?)\s*}})/g, (match, $1, $2) => {
+      let dataPath = $2;
+      if ($2.indexOf('?') !== -1) {
+          dataPath = $2.replace(/\?\./g, '.');
+      }
+      return _.get(data, dataPath);
+    });
   };
+  context.sanitize = function(input) {
+    // Strip away macros and escape breakout attempts.
+    return input
+      .replace(/{%\s*macro[^%]*%}/g, '')
+      .replace(/{{(.*\.constructor.*)}}/g, '{% raw %}{{$1}}{% endraw %}');
+  };
+
+  let output = '';
+  const vm = (new VM({
+    timeout: 15000,
+    sandbox: {
+      input: render,
+      output: (typeof render === 'string' ? '' : {})
+    },
+    fixAsync: true
+  }))
+
+  vm.freeze(environment, 'environment');
+  vm.freeze(context, 'context');
+
+  try {
+    output = vm.run(getScript(render));
+  }
+  catch (e) {
+    console.log(e.message);
+    console.log(e.stack);
+    output = e.message;
+  }
+
+  return output;
 };
 

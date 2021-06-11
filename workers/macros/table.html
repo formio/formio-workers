@@ -1,21 +1,21 @@
-{% macro dataValue(dValue) %}
+{% macro dataValue(dValue, data) %}
   {% if dValue | is_object %}
     <table border="1" style="width:100%">
       {% for dValueKey, dValueValue in dValue %}
         <tr>
           <th style="text-align:right;padding: 5px 10px;">{{ dValueKey }}</th>
-          <td style="width:100%;padding:5px 10px;">{{ dataValue(dValueValue) }}</td>
+          <td style="width:100%;padding:5px 10px;">{{ dataValue(dValueValue, data) }}</td>
         </tr>
       {% endfor %}
     </table><br/>
   {% elif dValue | is_array %}
     <ul>
       {% for arrayValue in dValue %}
-        <li>{{ dataValue(arrayValue) }}</li>
+        <li>{{ dataValue(arrayValue, data) }}</li>
       {% endfor %}
     </ul>
   {% else %}
-    {{ dValue }}
+    {{ renderValue(dValue, data) }}
   {% endif %}
 {% endmacro %}
 {% macro dataTable(components, submissionData, title) %}
@@ -48,7 +48,7 @@
               {% elif component.type == 'address' %}
                 {{ submissionData[component.key].formatted_address }}
               {% else %}
-                {{ dataValue(submissionData[component.key]) }}
+                {{ dataValue(submissionData[component.key], submissionData) }}
               {% endif %}
             </td>
           </tr>

@@ -26,21 +26,6 @@ if (isMainThread) {
     };
 }
 else {
-    const _ = require('lodash');
-    const { VM } = require('vm2');
-    const worker = require(workerData.task)(workerData.data);
-    let output = '';
-    try {
-        output = (new VM({
-            timeout: 15000,
-            sandbox: _.cloneDeep(worker.context),
-            fixAsync: true
-        })).run(worker.script);
-    }
-    catch (e) {
-        console.log(e.message);
-        console.log(e.stack);
-        return parentPort.postMessage(e.message);
-    }
+    const output = require(workerData.task)(workerData.data);
     parentPort.postMessage((typeof output === 'string') ? output : JSON.parse(JSON.stringify(output)));
 }
