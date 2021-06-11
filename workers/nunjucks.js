@@ -74,6 +74,9 @@ module.exports = (worker) => {
 
   const render = worker.render;
   const context = worker.context || {};
+  if (context._private) {
+    delete context._private;
+  }
   context.macros = macros;
   context.renderValue = function(value, data) {
     return value.toString().replace(/({{\s*(.*?)\s*}})/g, (match, $1, $2) => {
