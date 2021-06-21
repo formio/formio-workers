@@ -91,7 +91,7 @@ module.exports = (worker) => {
     // Strip away macros and escape breakout attempts.
     return input
       .replace(/{%\s*macro[^%]*%}/g, '')
-      .replace(/{{(.*\.constructor.*)}}/g, '{% raw %}{{$1}}{% endraw %}');
+      .replace(/{{(.*(\.constructor|\]\().*)}}/g, '{% raw %}{{$1}}{% endraw %}');
   };
 
   let output = '';

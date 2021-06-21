@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.14.16
+### Changed
+ - Made other fixes to sanitize methods.
+
 ## 1.14.15
 ### Fixed
  - Ensure we delete private contexts.
