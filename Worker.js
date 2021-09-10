@@ -26,6 +26,7 @@ if (isMainThread) {
     };
 }
 else {
-    const output = require(workerData.task)(workerData.data);
-    parentPort.postMessage((typeof output === 'string') ? output : JSON.parse(JSON.stringify(output)));
+    require(workerData.task)(workerData.data).then((output) => {
+        parentPort.postMessage((typeof output === 'string') ? output : JSON.parse(JSON.stringify(output)));
+    });
 }

@@ -4,7 +4,7 @@ const Tasks = {
 };
 class Local {
   constructor(task) {
-    this.task = Tasks[task] ? Tasks[task] : '';
+    this.task = Tasks[task] || '';
   }
 
   async start(data) {
