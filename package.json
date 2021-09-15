@@ -4,7 +4,8 @@
   "description": "A Nunjucks rendering template service for Form.io forms.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test/test.js -b -t 60000 --exit",
+    "lint": "eslint .",
     "deploy": "claudia create --name formio-workers --handler lambda.handler --deploy-proxy-api --region us-west-2",
     "update": "VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]' | sed 's/[\\.]/-/g');claudia update --version \"v${VERSION}\""
   },
@@ -33,6 +34,9 @@
     "vm2": "^3.9.3"
   },
   "devDependencies": {
-    "claudia": "^5.13.1"
+    "claudia": "^5.13.1",
+    "eslint": "^7.32.0",
+    "eslint-config-formio": "^1.1.4",
+    "mocha": "^9.1.1"
   }
 }

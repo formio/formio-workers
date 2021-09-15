@@ -1,3 +1,5 @@
+'use strict';
+
 const Worker  = require('./Worker');
 const Tasks = {
   nunjucks: `./workers/nunjucks.js`

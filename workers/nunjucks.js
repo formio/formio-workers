@@ -1,10 +1,11 @@
 'use strict';
+
 const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 const _ = require('lodash');
 const util = require('./util');
 const macros = require('./macros/macros');
-const { VM } = require('vm2');
+const {VM} = require('vm2');
 
 // Define a few global noop placeholder shims and import the component classes
 global.Text              = class {};

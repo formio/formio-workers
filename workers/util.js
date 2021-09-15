@@ -1,3 +1,5 @@
+'use strict';
+
 const _ = require('lodash');
 const moment = require('moment');
 const FormioUtils = require('formiojs/utils').default;
@@ -209,6 +211,7 @@ const Utils = {
       case 'file': {
         const file = Array.isArray(compValue.value) ? compValue.value[0] : compValue.value;
         if (file) {
+          // eslint-disable-next-line max-len
           compValue.value = `<a href="${file.url}" target="_blank" download="${file.originalName}">${file.originalName}</a>`;
         }
         else {
