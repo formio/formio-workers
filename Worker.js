@@ -1,9 +1,12 @@
-const { Worker, isMainThread, workerData, parentPort }  = require('worker_threads');
+'use strict';
+
+const {Worker, isMainThread, workerData, parentPort}  = require('worker_threads');
 
 if (isMainThread) {
     module.exports = (task, data) => {
         return new Promise((resolve, reject) => {
             try {
+                console.log(data);
                 const worker = new Worker(__filename, {workerData: JSON.parse(JSON.stringify({
                     task,
                     data
@@ -26,6 +29,7 @@ if (isMainThread) {
     };
 }
 else {
-    const output = require(workerData.task)(workerData.data);
-    parentPort.postMessage((typeof output === 'string') ? output : JSON.parse(JSON.stringify(output)));
+    require(workerData.task)(workerData.data).then((output) => {
+        parentPort.postMessage((typeof output === 'string') ? output : JSON.parse(JSON.stringify(output)));
+    });
 }

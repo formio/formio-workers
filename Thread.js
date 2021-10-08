@@ -1,10 +1,12 @@
+'use strict';
+
 const Worker  = require('./Worker');
 const Tasks = {
   nunjucks: `./workers/nunjucks.js`
 };
 class Local {
   constructor(task) {
-    this.task = Tasks[task] ? Tasks[task] : '';
+    this.task = Tasks[task] || '';
   }
 
   async start(data) {
