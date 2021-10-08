@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.15.0-rc.1
+### Changed
+ - FIO-3308: fixed an issue where email submission data is empty for checkbox of radio type with configured name
+ - FIO-3783: Added dynamic rendering
+
 ## 1.14.16
 ### Changed
  - Made other fixes to sanitize methods.
