@@ -79,18 +79,30 @@ const Utils = {
    */
   /* eslint-disable max-statements */
   renderComponentValue(data, key, components, noRecurse) {
+    const component = components[key];
     let value = _.get(data, key);
+
+    if (component && component.type === 'checkbox' && component.inputType === 'radio' && component.name) {
+      const pathToComponentData = key.slice(0, -component.key.length);
+      const formattedPath = pathToComponentData.length ? pathToComponentData.slice(0, -1) : '';
+      const compContextData = formattedPath ? _.get(data, formattedPath) : data;
+      const savedValue = _.get(compContextData, component.name);
+
+      value = !!savedValue && _.isEqual(savedValue, component.value);
+    }
+
     if (!value) {
       value = '';
     }
+
     const compValue = {
       label: key,
       value: value
     };
+
     if (!components.hasOwnProperty(key)) {
       return compValue;
     }
-    const component = components[key];
 
     // For address components, we need to get the address parts.
     if (
