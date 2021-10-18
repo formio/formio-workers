@@ -1,6 +1,6 @@
 {
   "name": "formio-workers",
-  "version": "1.16.0-rc.1",
+  "version": "1.16.0-rc.2",
   "description": "A Nunjucks rendering template service for Form.io forms.",
   "main": "index.js",
   "scripts": {
@@ -31,12 +31,12 @@
     "moment": "^2.29.1",
     "nunjucks": "^3.2.3",
     "nunjucks-date-filter": "^0.1.1",
-    "vm2": "^3.9.4"
+    "vm2": "^3.9.5"
   },
   "devDependencies": {
     "claudia": "^5.13.1",
-    "eslint": "^8.0.0",
+    "eslint": "^8.0.1",
     "eslint-config-formio": "^1.1.4",
-    "mocha": "^9.1.2"
+    "mocha": "^9.1.3"
   }
 }
