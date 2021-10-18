@@ -124,10 +124,7 @@ const getScript = (data) => {
 
 module.exports = (worker) => {
   const {
-    render: {
-      renderingMethod = 'static',
-      ...input
-    },
+    render,
     context = {},
   } = worker;
 
@@ -149,19 +146,19 @@ module.exports = (worker) => {
   const vm = new VM({
     timeout: 15000,
     sandbox: {
-      input,
-      output: (typeof input === 'string' ? '' : {})
+      input: render,
+      output: (typeof render === 'string' ? '' : {})
     },
     fixAsync: true
   });
 
   vm.freeze(environment, 'environment');
 
-  if (renderingMethod === 'static') {
+  if (!render.renderingMethod || render.renderingMethod === 'static') {
     vm.freeze(context, 'context');
 
     try {
-      return Promise.resolve(vm.run(getScript(input)));
+      return Promise.resolve(vm.run(getScript(render)));
     }
     catch (e) {
       console.log(e.message);
@@ -237,7 +234,7 @@ module.exports = (worker) => {
       vm.freeze(context, 'context');
 
       try {
-        return Promise.resolve(vm.run(getScript(input)));
+        return Promise.resolve(vm.run(getScript(render)));
       }
       catch (e) {
         console.log(e.message);
