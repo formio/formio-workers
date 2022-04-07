@@ -140,7 +140,6 @@ module.exports = (worker) => {
 
   // Strip away macros and escape breakout attempts.
   context.sanitize = (input) => input
-    .replace(/{%\s*macro[^%]*%}/g, '')
     .replace(/{{(.*(\.constructor|\]\().*)}}/g, '{% raw %}{{$1}}{% endraw %}');
 
   const vm = new VM({
