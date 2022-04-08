@@ -153,7 +153,14 @@ module.exports = (worker) => {
 
   vm.freeze(environment, 'environment');
 
-  if (!render.renderingMethod || render.renderingMethod === 'static') {
+  let renderMethod = 'static';
+  if (process.env.RENDER_METHOD) {
+    renderMethod = process.env.RENDER_METHOD;
+  }
+  else if (render.renderingMethod) {
+    renderMethod = render.renderingMethod;
+  }
+  if (renderMethod === 'static') {
     vm.freeze(context, 'context');
 
     try {
