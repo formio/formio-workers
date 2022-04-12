@@ -157,7 +157,7 @@ module.exports = (worker) => {
   if (process.env.RENDER_METHOD) {
     renderMethod = process.env.RENDER_METHOD;
   }
-  else if (render.renderingMethod) {
+  else if (render && render.renderingMethod) {
     renderMethod = render.renderingMethod;
   }
   if (renderMethod === 'static') {
