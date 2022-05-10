@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.16.5-rc.1
+### Changed
+ - Upgrade formiojs@4.14.5-rc.3
+
 ## 1.16.3
 ### Added
  - A way to force the rendering method with an environment variable.
