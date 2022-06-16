@@ -28,7 +28,38 @@ global.btoa = (str) => {
     Buffer.from(str.toString(), 'binary').toString('base64');
 };
 global.self = global;
+
 const Formio = require('formiojs/formio.form.js');
+//connect sketchpad component for email
+const sketchpadComp = require('@formio/premium/lib/components/Sketchpad/Sketchpad').default;
+const sketchpadTemplate = require('@formio/premium/lib/templates/bootstrap/sketchpad').default;
+//connect tagpad component for email
+const tagpadComp = require('@formio/premium/lib/components/Tagpad/Tagpad').default;
+const tagpadTemplate = require('@formio/premium/lib/templates/bootstrap/tagpad').default;
+//connect datatable component for email
+const datatableComp = require('@formio/premium/lib/components/DataTable/DataTable').default;
+const datatableTemplate = require('@formio/premium/lib/templates/bootstrap/datatable').default;
+//connect dynamicwizard component for email
+const dynamicwizardComp = require('@formio/premium/lib/components/DynamicWizard/DynamicWizard').default;
+const dynamicwizardTemplate = require('@formio/premium/lib/templates/bootstrap/dynamicWizard').default;
+
+Formio.Formio.use({
+  components: {
+    sketchpad: sketchpadComp,
+    tagpad: tagpadComp,
+    datatable: datatableComp,
+    dynamicwizard:dynamicwizardComp
+  },
+  templates: {
+    bootstrap: {
+      sketchpad: sketchpadTemplate,
+      tagpad: tagpadTemplate,
+      datatable: datatableTemplate,
+      dynamicwizard: dynamicwizardTemplate
+    },
+  },
+});
+
 global.Formio = Formio.Formio;
 
 // Remove onChange events from all renderer displays.

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/formio/formio-workers#readme",
   "dependencies": {
+    "@formio/premium": "github:formio/premium#v1.19.0-rc.2",
     "aws-serverless-express": "^3.4.0",
     "body-parser": "^1.19.1",
     "core-js": "^3.19.3",
