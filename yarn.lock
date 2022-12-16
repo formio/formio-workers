@@ -1053,10 +1053,10 @@ for-each@^0.3.3:
   dependencies:
     is-callable "^1.1.3"
 
-formiojs@4.14.11-rc.13:
-  version "4.14.11-rc.13"
-  resolved "https://registry.yarnpkg.com/formiojs/-/formiojs-4.14.11-rc.13.tgz#9c9c942647b0ddeb313a5966436bef695cc94af6"
-  integrity sha512-XvYq55CyF3s4X+DFy/YXseuo/oP+c51T84wDPqeOylslsUr/PnKEfrJKnyxmyf9w1Kem4TsKYg95oJ5NPRg6pQ==
+formiojs@4.14.11-rc.14:
+  version "4.14.11-rc.14"
+  resolved "https://registry.npmjs.org/formiojs/-/formiojs-4.14.11-rc.14.tgz#7452a31c4429de320a470e81e1f587fd21dbea33"
+  integrity sha512-ZDM8LhmAezr7MspclmOZ2p66kn6LK4JGIDhPbVB3/ycbBOjtWgRLptzoPEmkwkYyOAFeeukT/ZWOCws65qxCdQ==
   dependencies:
     "@formio/bootstrap3" "^2.12.2"
     "@formio/choices.js" "^9.0.1"
@@ -1084,8 +1084,8 @@ formiojs@4.14.11-rc.13:
     jstimezonedetect "^1.0.7"
     jwt-decode "^3.1.2"
     lodash "^4.17.21"
-    moment "^2.29.2"
-    moment-timezone "^0.5.34"
+    moment "^2.29.4"
+    moment-timezone "^0.5.40"
     native-promise-only "^0.8.1"
     quill "^2.0.0-dev.3"
     resize-observer-polyfill "^1.5.1"
@@ -1756,16 +1756,16 @@ mocha@^9.1.3:
     yargs-parser "20.2.4"
     yargs-unparser "2.0.0"
 
-moment-timezone@^0.5.34:
-  version "0.5.39"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.39.tgz#342625a3b98810f04c8f4ea917e448d3525e600b"
-  integrity sha512-hoB6suq4ISDj7BDgctiOy6zljBsdYT0++0ZzZm9rtxIvJhIbQ3nmbgSWe7dNFGurl6/7b1OUkHlmN9JWgXVz7w==
+moment-timezone@^0.5.40:
+  version "0.5.40"
+  resolved "https://registry.npmjs.org/moment-timezone/-/moment-timezone-0.5.40.tgz#c148f5149fd91dd3e29bf481abc8830ecba16b89"
+  integrity sha512-tWfmNkRYmBkPJz5mr9GVDn9vRlVZOTe6yqY92rFxiOdWXbjaR0+9LwQnZGGuNR63X456NqmEkbskte8tWL5ePg==
   dependencies:
     moment ">= 2.9.0"
 
-"moment@>= 2.9.0", moment@^2.29.1, moment@^2.29.2, moment@^2.9.0:
+"moment@>= 2.9.0", moment@^2.29.1, moment@^2.29.4, moment@^2.9.0:
   version "2.29.4"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  resolved "https://registry.npmjs.org/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
   integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 ms@2.0.0:
