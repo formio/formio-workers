@@ -1,6 +1,7 @@
 'use strict';
 
 const {Worker, isMainThread, workerData, parentPort}  = require('worker_threads');
+require('./Formio');
 
 if (isMainThread) {
     module.exports = (task, data) => {
