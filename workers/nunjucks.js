@@ -6,59 +6,7 @@ const _ = require('lodash');
 const util = require('./util');
 const macros = require('./macros/macros');
 const {VM} = require('vm2');
-
-// Define a few global noop placeholder shims and import the component classes
-global.Text              = class {};
-global.HTMLElement       = class {};
-global.HTMLCanvasElement = class {};
-global.navigator         = {userAgent: ''};
-global.document          = {
-  createElement: () => ({}),
-  cookie: '',
-  getElementsByTagName: () => [],
-  documentElement: {
-    style: [],
-    firstElementChild: {appendChild: () => {}}
-  }
-};
-global.window            = {addEventListener: () => {}, Event: function() {}, navigator: global.navigator};
-global.btoa = (str) => {
-  return (str instanceof Buffer) ?
-    str.toString('base64') :
-    Buffer.from(str.toString(), 'binary').toString('base64');
-};
-global.self = global;
-const Formio = require('formiojs/formio.form.js');
-global.Formio = Formio.Formio;
-
-// Remove onChange events from all renderer displays.
-_.each(Formio.Displays.displays, (display) => {
-  display.prototype.onChange = _.noop;
-});
-
-const vm = new VM({
-  timeout: 250,
-  sandbox: {
-    result: null,
-  },
-  fixAsync: true
-});
-
-Formio.Utils.Evaluator.noeval = true;
-Formio.Utils.Evaluator.evaluator = function(func, args) {
-  return function() {
-    let result = null;
-    /* eslint-disable no-empty */
-    try {
-      vm.freeze(args, 'args');
-
-      result = vm.run(`result = (function({${_.keys(args).join(',')}}) {${func}})(args);`);
-    }
-    catch (err) {}
-    /* eslint-enable no-empty */
-    return result;
-  };
-};
+const Formio = require('../Formio');
 
 // Configure nunjucks to not watch any files
 const environment = nunjucks.configure([], {
