@@ -1,6 +1,6 @@
 {
   "name": "formio-workers",
-  "version": "1.16.5-rc.15",
+  "version": "1.16.5-rc.16",
   "description": "A Nunjucks rendering template service for Form.io forms.",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "core-js": "^3.19.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "formiojs": "4.14.11-rc.16",
+    "formiojs": "4.14.11-rc.17",
     "lodash": "^4.17.21",
     "method-override": "^3.0.0",
     "moment": "^2.29.1",
