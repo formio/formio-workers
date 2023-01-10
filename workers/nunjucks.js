@@ -7,6 +7,7 @@ const util = require('./util');
 const macros = require('./macros/macros');
 const {VM} = require('vm2');
 const Formio = require('../Formio');
+const {premium} = require('@formio/premium/dist/premium-server.min.js');
 
 // Configure nunjucks to not watch any files
 const environment = nunjucks.configure([], {
@@ -124,6 +125,10 @@ module.exports = (worker) => {
   const unsets = [];
   const conditionallyInvisibleComponents = [];
   let unsetsEnabled = false;
+
+  if (premium) {
+    Formio.Formio.use(premium);
+  }
 
   return Formio.Formio.createForm(context.form, {
     server: true,
