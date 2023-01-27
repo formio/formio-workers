@@ -1,6 +1,6 @@
 {
   "name": "formio-workers",
-  "version": "1.14.13",
+  "version": "1.14.13-patch.1",
   "description": "A Nunjucks rendering template service for Form.io forms.",
   "main": "index.js",
   "scripts": {
@@ -20,17 +20,17 @@
   "homepage": "https://github.com/formio/formio-workers#readme",
   "dependencies": {
     "aws-serverless-express": "^3.4.0",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "core-js": "^3.9.1",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "formiojs": "^4.12.7",
+    "express": "^4.18.2",
+    "formiojs": "4.13.2-patch.1",
     "lodash": "^4.17.21",
     "method-override": "^3.0.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "nunjucks": "^3.2.3",
     "nunjucks-date-filter": "^0.1.1",
-    "vm2": "^3.9.2"
+    "vm2": "^3.9.13"
   },
   "devDependencies": {
     "claudia": "^5.13.0"
