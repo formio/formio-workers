@@ -7,7 +7,9 @@
     "test": "mocha test/test.js -b -t 60000 --exit",
     "lint": "eslint .",
     "deploy": "claudia create --name formio-workers --handler lambda.handler --deploy-proxy-api --region us-west-2",
-    "update": "VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]' | sed 's/[\\.]/-/g');claudia update --version \"v${VERSION}\""
+    "deploy:prod": "claudia create --name formio-workers-prod --handler lambda.handler --deploy-proxy-api --region us-west-1 --config=claudia-prod.json",
+    "update": "VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]' | sed 's/[\\.]/-/g');claudia update --version \"v${VERSION}\"",
+    "update:prod": "VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]' | sed 's/[\\.]/-/g');claudia update --config=claudia-prod.json --version \"v${VERSION}\""
   },
   "repository": {
     "type": "git",
