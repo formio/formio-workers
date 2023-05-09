@@ -125,6 +125,14 @@ module.exports = (worker) => {
   const conditionallyInvisibleComponents = [];
   let unsetsEnabled = false;
 
+  try {
+    const {premium} = require('@formio/premium/dist/premium-server.min.js');
+
+    if (premium) {
+      Formio.Formio.use(premium);
+    }
+  } catch {} // Skip connecting premium components if this file does not exist
+
   return Formio.Formio.createForm(context.form, {
     server: true,
     noDefaults: true,

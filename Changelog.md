@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased: 1.17.0-rc.1]
+
+
+## 1.16.5-rc.3
+### Fixed
+ - FIO-5750: Fixing timezone issues within the emails.
+
 ## 1.16.5-rc.2
 ### Changed
  - Upgrade formiojs@4.14.5-rc.4
