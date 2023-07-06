@@ -1106,10 +1106,10 @@ for-each@^0.3.3:
   dependencies:
     is-callable "^1.1.3"
 
-formiojs@4.15.1-rc.1:
-  version "4.15.1-rc.1"
-  resolved "https://registry.yarnpkg.com/formiojs/-/formiojs-4.15.1-rc.1.tgz#c3b2a0107634c29c0025e18d8e8913f38bc220e1"
-  integrity sha512-1aCg3bsqSwwfcvD933mVmKwFPrKxIO+3lcOEHT8n6B5gO2vfJBNNecVYvUwoC67CvJ8oH90Y2CKMyrE3DL0ALQ==
+formiojs@4.15.1-rc.2:
+  version "4.15.1-rc.2"
+  resolved "https://registry.yarnpkg.com/formiojs/-/formiojs-4.15.1-rc.2.tgz#aabcd23fb988575814528e15a1a58101d481ce49"
+  integrity sha512-gWIDV3ZwKMAPqXDzXyQEyDjUyMZRG43w0mzAFRwmKLv0X6h5Ja7xFPel5YrABweX50ZNnSbCZj6usSi++D4H6g==
   dependencies:
     "@formio/bootstrap3" "2.12.3"
     "@formio/choices.js" "10.2.0"
