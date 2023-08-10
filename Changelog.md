@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased: 1.19.0-rc.1]
+### Changed
+ - Bump vm2 from 3.9.17 to 3.9.19
+ - Bump word-wrap from 1.2.3 to 1.2.4
+   
 ## 1.18.0-rc.5
 ### Changed
  - Updated formiojs@4.16.0-rc.9
