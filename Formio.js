@@ -3,6 +3,12 @@
 require('./workers/util');
 const _ = require('lodash');
 const {VM} = require('vm2');
+const Domain = require('node:domain');
+
+let domain = Domain.create();
+domain.on('error', (err) => {
+  console.error('Asynchronous error while executing script.', err.stack);
+});
 
 const vm = new VM({
   timeout: 250,
@@ -48,15 +54,17 @@ _.each(Formio.Displays.displays, (display) => {
 Formio.Utils.Evaluator.noeval = true;
 Formio.Utils.Evaluator.evaluator = function(func, args) {
   return function() {
-    let result = null;
-    /* eslint-disable no-empty */
-    try {
-      vm.freeze(args, 'args');
-      result = vm.run(`result = (function({${_.keys(args).join(',')}}) {${func}})(args);`);
-    }
-    catch (err) {}
-    /* eslint-enable no-empty */
-    return result;
+    return domain.run(() => {
+      let result = null;
+      /* eslint-disable no-empty */
+      try {
+        vm.freeze(args, 'args');
+        result = vm.run(`result = (function({${_.keys(args).join(',')}}) {${func}})(args);`);
+      }
+      catch (err) {}
+      /* eslint-enable no-empty */
+      return result;
+    });
   };
 };
 
