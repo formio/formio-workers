@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.19.0-rc.4
 ### Changed
+ - Updated formiojs@4.17.0-rc.6
+
+## 1.19.0-rc.4
+### Changed
  - FIO-7241: fixed possible async error from vm
 
 ## 1.19.0-rc.3
