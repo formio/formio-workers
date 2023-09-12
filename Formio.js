@@ -2,15 +2,12 @@
 
 require('./workers/util');
 const _ = require('lodash');
-const {VM} = require('vm2');
+const vmUtil = require('./vmUtil');
+const {Isolate} = require('./vmUtil');
 
-const vm = new VM({
-  timeout: 250,
-  sandbox: {
-    result: null,
-  },
-  fixAsync: true
-});
+const isolate = new Isolate({memoryLimit: 8});
+const context = isolate.createContextSync();
+vmUtil.transferSync('result', null, context);
 
 // Define a few global noop placeholder shims and import the component classes
 global.Text              = class {};
@@ -51,8 +48,11 @@ Formio.Utils.Evaluator.evaluator = function(func, args) {
     let result = null;
     /* eslint-disable no-empty */
     try {
-      vm.freeze(args, 'args');
-      result = vm.run(`result = (function({${_.keys(args).join(',')}}) {${func}})(args);`);
+      vmUtil.freezeSync('args', args, context);
+      result = context.evalSync(`result = (function({${_.keys(args).join(',')}}) {${func}})(args);`, {
+        timeout: 250,
+        copy: true
+      });
     }
     catch (err) {}
     /* eslint-enable no-empty */

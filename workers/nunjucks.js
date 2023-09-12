@@ -5,7 +5,8 @@ const dateFilter = require('nunjucks-date-filter');
 const _ = require('lodash');
 const util = require('./util');
 const macros = require('./macros/macros');
-const {VM} = require('vm2');
+const vmUtil = require('../vmUtil');
+const {Isolate} = require('../vmUtil');
 const Formio = require('../Formio');
 
 // Configure nunjucks to not watch any files
@@ -90,16 +91,11 @@ module.exports = (worker) => {
   context.sanitize = (input) => input
     .replace(/{{(.*(\.constructor|\]\().*)}}/g, '{% raw %}{{$1}}{% endraw %}');
 
-  const vm = new VM({
-    timeout: 15000,
-    sandbox: {
-      input: render,
-      output: (typeof render === 'string' ? '' : {})
-    },
-    fixAsync: true
-  });
-
-  vm.freeze(environment, 'environment');
+  const isolate = new Isolate({memoryLimit: 8});
+  const isolateContext = isolate.createContextSync();
+  vmUtil.transferSync('input', render, isolateContext);
+  vmUtil.transferSync('output', (typeof render === 'string' ? '' : {}), isolateContext);
+  vmUtil.freezeSync('environment', environment, isolateContext);
 
   let renderMethod = 'static';
   if (process.env.RENDER_METHOD) {
@@ -109,10 +105,10 @@ module.exports = (worker) => {
     renderMethod = render.renderingMethod;
   }
   if (renderMethod === 'static') {
-    vm.freeze(context, 'context');
+    vmUtil.freezeSync('context', context, isolateContext);
 
     try {
-      return Promise.resolve(vm.run(getScript(render)));
+      return Promise.resolve(isolateContext.evalSync(getScript(render), {timeout: 15000, copy: true}));
     }
     catch (e) {
       console.log(e.message);
@@ -193,10 +189,10 @@ module.exports = (worker) => {
       unsets.forEach((unset) => _.unset(unset.data, unset.key));
 
       context.formInstance = form;
-      vm.freeze(context, 'context');
+      vmUtil.freezeSync('context', context, isolateContext);
 
       try {
-        return Promise.resolve(vm.run(getScript(render)));
+        return Promise.resolve(isolateContext.evalSync(getScript(render), {timeout: 15000, copy: true}));
       }
       catch (e) {
         console.log(e.message);
