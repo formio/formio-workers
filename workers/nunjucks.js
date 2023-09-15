@@ -50,7 +50,7 @@ const getScript = (data) => {
     // Script to render a single string.
     return `
       environment.params = context;
-      output = environment.renderString(context.sanitize(input), context);
+      output = environment.renderString(sanitize(input), context);
     `;
   }
 
@@ -62,9 +62,9 @@ const getScript = (data) => {
       if (input.hasOwnProperty(prop)) {
         rendered[prop] = input[prop];
         if (prop === 'html') {
-          rendered[prop] = environment.renderString(context.macros + context.sanitize(rendered[prop]), context);
+          rendered[prop] = environment.renderString(context.macros + sanitize(rendered[prop]), context);
         }
-        rendered[prop] = environment.renderString(context.macros + context.sanitize(rendered[prop]), context);
+        rendered[prop] = environment.renderString(context.macros + sanitize(rendered[prop]), context);
       }
     }
     output = rendered;
@@ -83,12 +83,8 @@ module.exports = (worker) => {
 
   context.macros = macros;
 
-  context.renderValue = (value, data) => value
-    .toString()
-    .replace(/{{\s*(.*?)\s*}}/g, (match, $1) => _.get(data, $1.replaceAll('?.', '.')));
-
   // Strip away macros and escape breakout attempts.
-  context.sanitize = (input) => input
+  const sanitize = (input) => input
     .replace(/{{(.*(\.constructor|\]\().*)}}/g, '{% raw %}{{$1}}{% endraw %}');
 
   const isolate = new Isolate({memoryLimit: 8});
@@ -96,6 +92,7 @@ module.exports = (worker) => {
   vmUtil.transferSync('input', render, isolateContext);
   vmUtil.transferSync('output', (typeof render === 'string' ? '' : {}), isolateContext);
   vmUtil.freezeSync('environment', environment, isolateContext);
+  vmUtil.freezeSync('sanitize', sanitize, isolateContext);
 
   let renderMethod = 'static';
   if (process.env.RENDER_METHOD) {
@@ -105,10 +102,11 @@ module.exports = (worker) => {
     renderMethod = render.renderingMethod;
   }
   if (renderMethod === 'static') {
-    vmUtil.freezeSync('context', context, isolateContext);
+    vmUtil.transferSync('context', context, isolateContext);
 
     try {
-      return Promise.resolve(isolateContext.evalSync(getScript(render), {timeout: 15000, copy: true}));
+      const script = getScript(render);
+      return Promise.resolve(isolateContext.evalSync(script, {timeout: 15000, copy: true}));
     }
     catch (e) {
       console.log(e.message);
@@ -189,7 +187,7 @@ module.exports = (worker) => {
       unsets.forEach((unset) => _.unset(unset.data, unset.key));
 
       context.formInstance = form;
-      vmUtil.freezeSync('context', context, isolateContext);
+      vmUtil.transferSync('context', context, isolateContext);
 
       try {
         return Promise.resolve(isolateContext.evalSync(getScript(render), {timeout: 15000, copy: true}));
