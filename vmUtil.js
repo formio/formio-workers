@@ -22,11 +22,15 @@ async function _transfer(key, value, dest, visited, c) {
       return;
     }
   }
-  else if (value instanceof Object) {
-    await c.evalClosure(`${dest}['${key}'] = {}`, []);
-  }
   else if (value instanceof Array) {
     await c.evalClosure(`${dest}['${key}'] = []`, []);
+  }
+  else if (typeof value === 'object') {
+    await c.evalClosure(`${dest}['${key}'] = {}`, []);
+    // Transfer prototype
+    for (let p in value.__proto__) {
+        c.evalClosureSync(`${dest}['${key}']['${p}'] = $0`, [value.__proto__[p]])
+    }
   }
 
   visited.set(value, `${dest}['${key}']`);
@@ -65,11 +69,15 @@ function _transferSync(key, value, dest, visited, c) {
       return;
     }
   }
-  else if (value instanceof Object) {
-    c.evalClosureSync(`${dest}['${key}'] = {}`, []);
-  }
   else if (value instanceof Array) {
     c.evalClosureSync(`${dest}['${key}'] = []`, []);
+  }
+  else if (typeof value === 'object') {
+    c.evalClosureSync(`${dest}['${key}'] = {}`, []);
+    // Transfer prototype
+    for (let p in value.__proto__) {
+      c.evalClosureSync(`${dest}['${key}']['${p}'] = $0`, [value.__proto__[p]])
+    }
   }
 
   visited.set(value, `${dest}['${key}']`);
