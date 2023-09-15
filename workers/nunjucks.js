@@ -50,7 +50,7 @@ const getScript = (data) => {
     // Script to render a single string.
     return `
       environment.params = context;
-      output = environment.renderString(sanitize(input), context);
+      output = unescape(environment.renderString(sanitize(input), context));
     `;
   }
 
@@ -62,9 +62,9 @@ const getScript = (data) => {
       if (input.hasOwnProperty(prop)) {
         rendered[prop] = input[prop];
         if (prop === 'html') {
-          rendered[prop] = environment.renderString(context.macros + sanitize(rendered[prop]), context);
+          rendered[prop] = unescape(environment.renderString(context.macros + sanitize(rendered[prop]), context));
         }
-        rendered[prop] = environment.renderString(context.macros + sanitize(rendered[prop]), context);
+        rendered[prop] = unescape(environment.renderString(context.macros + sanitize(rendered[prop]), context));
       }
     }
     output = rendered;
@@ -87,12 +87,20 @@ module.exports = (worker) => {
   const sanitize = (input) => input
     .replace(/{{(.*(\.constructor|\]\().*)}}/g, '{% raw %}{{$1}}{% endraw %}');
 
+  const unescape = (str) => str
+    .replace(/&lt;/g , '<')
+    .replace(/&gt;/g , '>')
+    .replace(/&quot;/g , '\"')
+    .replace(/&#39;/g , '\'')
+    .replace(/&amp;/g , '&');
+
   const isolate = new Isolate({memoryLimit: 8});
   const isolateContext = isolate.createContextSync();
   vmUtil.transferSync('input', render, isolateContext);
   vmUtil.transferSync('output', (typeof render === 'string' ? '' : {}), isolateContext);
   vmUtil.freezeSync('environment', environment, isolateContext);
   vmUtil.freezeSync('sanitize', sanitize, isolateContext);
+  vmUtil.freezeSync('unescape', unescape, isolateContext);
 
   let renderMethod = 'static';
   if (process.env.RENDER_METHOD) {
