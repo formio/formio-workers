@@ -64,6 +64,24 @@
     fuse.js "^6.6.2"
     redux "^4.2.0"
 
+"@formio/core@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/@formio/core/-/core-1.2.0.tgz#5f046bc5d536f2ece321b0785f5c423dc6d447f2"
+  integrity sha512-Emt64RzWnCg+HCcC8LNzLaTf96fOYjz4xVE6CPkhCcIcpMOVsZrUlIsTaxnaQn3lNPvt7bCp1uCcyy5dRJUK9Q==
+  dependencies:
+    "@formio/lodash" "0.0.9"
+    core-js "^3.21.1"
+    dayjs "^1.10.8"
+    dompurify "^2.3.6"
+    eventemitter3 "^4.0.7"
+    fetch-ponyfill "^7.1.0"
+    json-logic-js "^2.0.2"
+
+"@formio/lodash@0.0.9":
+  version "0.0.9"
+  resolved "https://registry.npmjs.org/@formio/lodash/-/lodash-0.0.9.tgz#60c57131e960aeb87194e3420c642c9d4ee07fae"
+  integrity sha512-g/mcs0WOjcivqXFtc148jrfuSdZiwbX/CWHSTzPDwMCJzJIy7iftO9G6jyewELsKG2DGzqLRHxbDW/jnr4WjPw==
+
 "@formio/semantic@2.6.1":
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/@formio/semantic/-/semantic-2.6.1.tgz#dd224e276da2f27b272131ed6678847a52be299d"
@@ -608,6 +626,11 @@ core-js@^3.19.3:
   resolved "https://registry.npmjs.org/core-js/-/core-js-3.30.2.tgz#6528abfda65e5ad728143ea23f7a14f0dcf503fc"
   integrity sha512-uBJiDmwqsbJCWHAwjrx3cvjbMXP7xD72Dmsn5LOJpiRmE3WbBbN5rCqQ2Qh6Ek6/eOrjlWngEynBWo4VxerQhg==
 
+core-js@^3.21.1:
+  version "3.32.2"
+  resolved "https://registry.npmjs.org/core-js/-/core-js-3.32.2.tgz#172fb5949ef468f93b4be7841af6ab1f21992db7"
+  integrity sha512-pxXSw1mYZPDGvTQqEc5vgIb83jGQKFGYWY76z4a7weZXUolw3G+OvpZqSRcfYOoOVUQJYEPsWeQK8pKEnUtWxQ==
+
 core-js@^3.26.1:
   version "3.31.0"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.31.0.tgz#4471dd33e366c79d8c0977ed2d940821719db344"
@@ -665,6 +688,11 @@ custom-event@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/custom-event/-/custom-event-1.0.1.tgz#5d02a46850adf1b4a317946a3928fccb5bfd0425"
   integrity sha512-GAj5FOq0Hd+RsCGVJxZuKaIDXDf3h6GQoNEjFgbLLI/trgtavwUbSnZ5pVfg27DVCaWjIohryS0JFwIJyT2cMg==
+
+dayjs@^1.10.8:
+  version "1.11.10"
+  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.10.tgz#68acea85317a6e164457d6d6947564029a6a16a0"
+  integrity sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==
 
 debug@2.6.9:
   version "2.6.9"
@@ -829,6 +857,11 @@ dom-set@^1.0.1:
     array-from "^2.1.1"
     is-array "^1.0.1"
     iselement "^1.1.4"
+
+dompurify@^2.3.6:
+  version "2.4.7"
+  resolved "https://registry.npmjs.org/dompurify/-/dompurify-2.4.7.tgz#277adeb40a2c84be2d42a8bcd45f582bfa4d0cfc"
+  integrity sha512-kxxKlPEDa6Nc5WJi+qRgPbOAbgTpSULL+vI3NUXsZMlkJxTqYI9wg5ZTay2sFrdZRWHPWNi+EdAhcJf81WtoMQ==
 
 dompurify@^2.4.1:
   version "2.4.5"
@@ -2757,6 +2790,12 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
+
+"vm-utils@https://github.com/formio/vm-utils.git":
+  version "1.0.0"
+  resolved "https://github.com/formio/vm-utils.git#2e854c58807e6d30a0701b3e3af2d3d707528cc4"
+  dependencies:
+    isolated-vm "^4.6.0"
 
 vm2@^3.9.5:
   version "3.9.19"

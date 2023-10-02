@@ -5,8 +5,8 @@ const dateFilter = require('nunjucks-date-filter');
 const _ = require('lodash');
 const util = require('./util');
 const macros = require('./macros/macros');
-const vmUtil = require('../vmUtil');
-const {Isolate} = require('../vmUtil');
+const vmUtil = require('vm-utils');
+const {Isolate} = require('vm-utils');
 const Formio = require('../Formio');
 
 // Configure nunjucks to not watch any files

@@ -2,9 +2,9 @@
 
 require('./workers/util');
 const _ = require('lodash');
-const vmUtil = require('./vmUtil');
-const {Isolate} = require('./vmUtil');
-
+const vmUtil = require('vm-utils');
+const { Isolate } = require('vm-utils');
+const { InstanceProxy, FormProxy } = require('@formio/core');
 const isolate = new Isolate({memoryLimit: 8});
 const context = isolate.createContextSync();
 vmUtil.transferSync('result', null, context);
@@ -46,7 +46,18 @@ Formio.Utils.Evaluator.noeval = true;
 Formio.Utils.Evaluator.evaluator = function(func, args) {
   return function() {
     let result = null;
-    /* eslint-disable no-empty */
+    if (args.instance) {
+      args.instance = new InstanceProxy(args.instance);
+    }
+    if (args.self) {
+      args.self = new InstanceProxy(args.self);
+    }
+    if (args.root) {
+      args.root = new FormProxy(args.root);
+    }
+    if (args.options) {
+      args.options = {};
+    }
     try {
       vmUtil.freezeSync('args', args, context);
       result = context.evalSync(`result = (function({${_.keys(args).join(',')}}) {${func}})(args);`, {
