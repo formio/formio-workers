@@ -87,6 +87,7 @@ module.exports = (worker) => {
   const sanitize = (input) => input
     .replace(/{{(.*(\.constructor|\]\().*)}}/g, '{% raw %}{{$1}}{% endraw %}');
 
+  // Unescape HTML sequences
   const unescape = (str) => str
     .replace(/&lt;/g , '<')
     .replace(/&gt;/g , '>')

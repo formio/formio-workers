@@ -46,6 +46,7 @@ Formio.Utils.Evaluator.noeval = true;
 Formio.Utils.Evaluator.evaluator = function(func, args) {
   return function() {
     let result = null;
+    // Apply InstanceProxy and FromProxy to sanitize object before passing them to sandbox
     if (args.instance) {
       args.instance = new InstanceProxy(args.instance);
     }
@@ -55,6 +56,8 @@ Formio.Utils.Evaluator.evaluator = function(func, args) {
     if (args.root) {
       args.root = new FormProxy(args.root);
     }
+    // Remove `options` object as it has vulnerable data
+    // And not actually widely used
     if (args.options) {
       args.options = {};
     }
