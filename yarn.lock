@@ -2791,9 +2791,9 @@ vary@~1.1.2:
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
-"vm-utils@https://github.com/formio/vm-utils.git":
+"vm-utils@https://github.com/formio/vm-utils.git#1.0.0":
   version "1.0.0"
-  resolved "https://github.com/formio/vm-utils.git#2e854c58807e6d30a0701b3e3af2d3d707528cc4"
+  resolved "https://github.com/formio/vm-utils.git#cf2d501366405adfcd94b46ac83117974beda951"
   dependencies:
     isolated-vm "^4.6.0"
 
