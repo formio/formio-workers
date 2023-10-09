@@ -6,7 +6,6 @@ const _ = require('lodash');
 const util = require('./util');
 const macros = require('./macros/macros');
 const vmUtil = require('vm-utils');
-const {Isolate} = require('vm-utils');
 const Formio = require('../Formio');
 
 // Configure nunjucks to not watch any files
@@ -95,7 +94,7 @@ module.exports = (worker) => {
     .replace(/&#39;/g , '\'')
     .replace(/&amp;/g , '&');
 
-  const isolate = new Isolate({memoryLimit: 8});
+  const isolate = vmUtil.newIsolate();
   const isolateContext = isolate.createContextSync();
   vmUtil.transferSync('input', render, isolateContext);
   vmUtil.transferSync('output', (typeof render === 'string' ? '' : {}), isolateContext);
