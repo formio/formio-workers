@@ -4,7 +4,7 @@ require('./workers/util');
 const _ = require('lodash');
 const vmUtil = require('vm-utils');
 const { InstanceProxy, FormProxy } = require('@formio/core');
-const isolate = vmUtil.newIsolate();
+const isolate = vmUtil.getIsolate();
 const context = isolate.createContextSync();
 vmUtil.transferSync('result', null, context);
 

@@ -94,7 +94,7 @@ module.exports = (worker) => {
     .replace(/&#39;/g , '\'')
     .replace(/&amp;/g , '&');
 
-  const isolate = vmUtil.newIsolate();
+  const isolate = vmUtil.getIsolate();
   const isolateContext = isolate.createContextSync();
   vmUtil.transferSync('input', render, isolateContext);
   vmUtil.transferSync('output', (typeof render === 'string' ? '' : {}), isolateContext);
