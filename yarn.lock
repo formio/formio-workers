@@ -62,23 +62,25 @@
     fuse.js "^6.6.2"
     redux "^4.2.0"
 
-"@formio/core@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@formio/core/-/core-1.2.0.tgz#5f046bc5d536f2ece321b0785f5c423dc6d447f2"
-  integrity sha512-Emt64RzWnCg+HCcC8LNzLaTf96fOYjz4xVE6CPkhCcIcpMOVsZrUlIsTaxnaQn3lNPvt7bCp1uCcyy5dRJUK9Q==
+"@formio/core@1.3.0-rc.22":
+  version "1.3.0-rc.22"
+  resolved "https://registry.yarnpkg.com/@formio/core/-/core-1.3.0-rc.22.tgz#93a032930975e637bcb7b65292830aa015fb559c"
+  integrity sha512-G+hRcws7uKXNzv4PjSyIjQUCVyLtcNTbHJlm9trl/d6fjJnX2POfV/VfptfolOTAim7tMj7RfNa2Xh1cmsdcCA==
   dependencies:
-    "@formio/lodash" "0.0.9"
+    "@formio/lodash" "0.1.0"
+    "@types/json-logic-js" "^2.0.1"
+    browser-cookies "^1.2.0"
     core-js "^3.21.1"
     dayjs "^1.10.8"
-    dompurify "^2.3.6"
-    eventemitter3 "^4.0.7"
+    dompurify "^3.0.1"
+    eventemitter3 "^5.0.0"
     fetch-ponyfill "^7.1.0"
     json-logic-js "^2.0.2"
 
-"@formio/lodash@0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@formio/lodash/-/lodash-0.0.9.tgz#60c57131e960aeb87194e3420c642c9d4ee07fae"
-  integrity sha512-g/mcs0WOjcivqXFtc148jrfuSdZiwbX/CWHSTzPDwMCJzJIy7iftO9G6jyewELsKG2DGzqLRHxbDW/jnr4WjPw==
+"@formio/lodash@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@formio/lodash/-/lodash-0.1.0.tgz#6f837423d33e45a022211eb98bfc683dd8bee9a8"
+  integrity sha512-xwDR6UyoOVZaYHNRmSAQXzx57I6svqi7wY2n8PAbGCWFnSvIKIWjlZ8Jktb63VJY1b5lfNF8xyq2ZFcsAMjYVg==
 
 "@formio/semantic@2.6.1":
   version "2.6.1"
@@ -144,6 +146,11 @@
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/@sphinxxxx/color-conversion/-/color-conversion-2.2.2.tgz#03ecc29279e3c0c832f6185a5bfa3497858ac8ca"
   integrity sha512-XExJS3cLqgrmNBIP3bBw6+1oQ1ksGjFh0+oClDKFYpCCqx/hlqwWO5KO/S63fzUo67SxI9dMrF0y5T/Ey7h8Zw==
+
+"@types/json-logic-js@^2.0.1":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@types/json-logic-js/-/json-logic-js-2.0.3.tgz#601740a0f2f7d5b066e66ada11aab3911211d478"
+  integrity sha512-UC/vdLtQUN2u9vL4pVcCpLTbIF7ZIEeKfV0vYjrlCTIfGJAXN9jCE80PlECm/OZUlq7tx7Mv0e6OA+0dU4w0Bg==
 
 "@ungap/promise-all-settled@1.1.2":
   version "1.1.2"
@@ -856,12 +863,7 @@ dom-set@^1.0.1:
     is-array "^1.0.1"
     iselement "^1.1.4"
 
-dompurify@^2.3.6:
-  version "2.4.7"
-  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.4.7.tgz#277adeb40a2c84be2d42a8bcd45f582bfa4d0cfc"
-  integrity sha512-kxxKlPEDa6Nc5WJi+qRgPbOAbgTpSULL+vI3NUXsZMlkJxTqYI9wg5ZTay2sFrdZRWHPWNi+EdAhcJf81WtoMQ==
-
-dompurify@^3.0.5:
+dompurify@^3.0.1, dompurify@^3.0.5:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.0.6.tgz#925ebd576d54a9531b5d76f0a5bef32548351dae"
   integrity sha512-ilkD8YEnnGh1zJ240uJsW7AzE+2qpbOUYjacomn3AvJ6J4JhKGSZ2nh4wUIXPZrEPppaCLx5jFe8T89Rk8tQ7w==
@@ -1049,6 +1051,11 @@ eventemitter3@^4.0.0, eventemitter3@^4.0.7:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
+
+eventemitter3@^5.0.0:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-5.0.1.tgz#53f5ffd0a492ac800721bb42c66b841de96423c4"
+  integrity sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==
 
 events@1.1.1:
   version "1.1.1"
