@@ -34,7 +34,7 @@
     "moment-timezone": "^0.5.35",
     "nunjucks": "^3.2.3",
     "nunjucks-date-filter": "^0.1.1",
-    "vm-utils": "https://github.com/formio/vm-utils.git#1.0.0"
+    "vm-utils": "https://github.com/formio/vm-utils.git#main"
   },
   "devDependencies": {
     "claudia": "^5.14.0",
