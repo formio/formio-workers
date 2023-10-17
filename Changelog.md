@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased: 1.20.0-rc.6]
+## 1.20.0-rc.6
+### Changed
+ - Updated formiojs@4.18.0-rc.5
+ - Updated @formio/core@1.3.0-rc.22
+
 ### Changed
  - FIO-7200: vm2 replaced with isolated-vm
    
