@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const app = express();
 app.use(bodyParser.json({
-  limit: '16mb'
+  limit: '32mb'
 }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 const WorkerThread = require('./Thread');
