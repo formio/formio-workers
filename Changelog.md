@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased: 1.21.0-rc.1]
 ### Changed
  - FIO-7200: vm2 replaced with isolated-vm
+ - FIO-7538: Change vm-utils to pull in 1.0.0-rc.1
+ - FIO-7534: parameterize request body size limit
    
 ## 1.20.0-rc.4
 ### Changed
