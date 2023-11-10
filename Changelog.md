@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.20.0-rc.9
+### Changed
+ - Updated formiojs@4.18.0-rc.7
+ - FIO-7534: parameterize request body size limit
+
 ## 1.20.0-rc.8
 ### Changed
  - FIO-7510: Revert Isolated-VM changes
