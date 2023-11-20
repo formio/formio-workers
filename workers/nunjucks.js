@@ -5,7 +5,7 @@ const dateFilter = require('nunjucks-date-filter');
 const _ = require('lodash');
 const util = require('./util');
 const macros = require('./macros/macros');
-const vmUtil = require('vm-utils');
+const {VM} = require('vm2');
 const Formio = require('../Formio');
 
 // Configure nunjucks to not watch any files
@@ -49,7 +49,7 @@ const getScript = (data) => {
     // Script to render a single string.
     return `
       environment.params = context;
-      output = unescape(environment.renderString(sanitize(input), context));
+      output = environment.renderString(context.sanitize(input), context);
     `;
   }
 
@@ -61,9 +61,9 @@ const getScript = (data) => {
       if (input.hasOwnProperty(prop)) {
         rendered[prop] = input[prop];
         if (prop === 'html') {
-          rendered[prop] = unescape(environment.renderString(context.macros + sanitize(rendered[prop]), context));
+          rendered[prop] = environment.renderString(context.macros + context.sanitize(rendered[prop]), context);
         }
-        rendered[prop] = unescape(environment.renderString(context.macros + sanitize(rendered[prop]), context));
+        rendered[prop] = environment.renderString(context.macros + context.sanitize(rendered[prop]), context);
       }
     }
     output = rendered;
@@ -82,25 +82,24 @@ module.exports = (worker) => {
 
   context.macros = macros;
 
+  context.renderValue = (value, data) => value
+    .toString()
+    .replace(/{{\s*(.*?)\s*}}/g, (match, $1) => _.get(data, $1.replaceAll('?.', '.')));
+
   // Strip away macros and escape breakout attempts.
-  const sanitize = (input) => input
+  context.sanitize = (input) => input
     .replace(/{{(.*(\.constructor|\]\().*)}}/g, '{% raw %}{{$1}}{% endraw %}');
 
-  // Unescape HTML sequences
-  const unescape = (str) => str
-    .replace(/&lt;/g , '<')
-    .replace(/&gt;/g , '>')
-    .replace(/&quot;/g , '\"')
-    .replace(/&#39;/g , '\'')
-    .replace(/&amp;/g , '&');
+  const vm = new VM({
+    timeout: 15000,
+    sandbox: {
+      input: render,
+      output: (typeof render === 'string' ? '' : {})
+    },
+    fixAsync: true
+  });
 
-  const isolate = vmUtil.getIsolate();
-  const isolateContext = isolate.createContextSync();
-  vmUtil.transferSync('input', render, isolateContext);
-  vmUtil.transferSync('output', (typeof render === 'string' ? '' : {}), isolateContext);
-  vmUtil.freezeSync('environment', environment, isolateContext);
-  vmUtil.freezeSync('sanitize', sanitize, isolateContext);
-  vmUtil.freezeSync('unescape', unescape, isolateContext);
+  vm.freeze(environment, 'environment');
 
   let renderMethod = 'static';
   if (process.env.RENDER_METHOD) {
@@ -110,11 +109,10 @@ module.exports = (worker) => {
     renderMethod = render.renderingMethod;
   }
   if (renderMethod === 'static') {
-    vmUtil.transferSync('context', context, isolateContext);
+    vm.freeze(context, 'context');
 
     try {
-      const script = getScript(render);
-      return Promise.resolve(isolateContext.evalSync(script, {timeout: 15000, copy: true}));
+      return Promise.resolve(vm.run(getScript(render)));
     }
     catch (e) {
       console.log(e.message);
@@ -195,10 +193,10 @@ module.exports = (worker) => {
       unsets.forEach((unset) => _.unset(unset.data, unset.key));
 
       context.formInstance = form;
-      vmUtil.transferSync('context', context, isolateContext);
+      vm.freeze(context, 'context');
 
       try {
-        return Promise.resolve(isolateContext.evalSync(getScript(render), {timeout: 15000, copy: true}));
+        return Promise.resolve(vm.run(getScript(render)));
       }
       catch (e) {
         console.log(e.message);
