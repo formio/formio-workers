@@ -261,6 +261,9 @@ const Utils = {
 
         break;
       }
+      // omit recaptcha components from emails
+      case 'recaptcha':
+        return {value: false};
       default:
         if (!component.input) {
           return {value: false};
