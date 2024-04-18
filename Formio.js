@@ -11,7 +11,7 @@ domain.on('error', (err) => {
 });
 
 const vm = new VM({
-  timeout: 250,
+  timeout: Number(process.env.FORMIO_VM_TIMEOUT) || 500,
   sandbox: {
     result: null,
   },
