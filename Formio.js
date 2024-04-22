@@ -61,7 +61,9 @@ Formio.Utils.Evaluator.evaluator = function(func, args) {
         vm.freeze(args, 'args');
         result = vm.run(`result = (function({${_.keys(args).join(',')}}) {${func}})(args);`);
       }
-      catch (err) {}
+      catch (err) {
+        console.warn(err);
+      }
       /* eslint-enable no-empty */
       return result;
     });
